@@ -11,8 +11,8 @@ services:
       - USER=admin
       - PASS=3135
     volumes:
-      - /srv/dev-disk-by-uuid-174fa174-a675-40ef-af9d-28f1578a19bb/Containers/T>
-      - /srv/dev-disk-by-uuid-174fa174-a675-40ef-af9d-28f1578a19bb/piShare/Down>
+      - /srv/dev-disk-by-uuid-174fa174-a675-40ef-af9d-28f1578a19bb/Containers/Transmission:/config
+      - /srv/dev-disk-by-uuid-174fa174-a675-40ef-af9d-28f1578a19bb/piShare/Downloads:/downloads
     ports:
       - 9091:9091
       - 51413:51413
