@@ -1,0 +1,20 @@
+---
+version: "2.1"
+services:
+  transmission:
+    image: lscr.io/linuxserver/transmission
+    container_name: transmission
+    environment:
+      - PUID=1000
+      - PGID=100
+      - TZ=Asia/Kolkata
+      - USER=admin
+      - PASS=3135
+    volumes:
+      - /srv/dev-disk-by-uuid-174fa174-a675-40ef-af9d-28f1578a19bb/Containers/T>
+      - /srv/dev-disk-by-uuid-174fa174-a675-40ef-af9d-28f1578a19bb/piShare/Down>
+    ports:
+      - 9091:9091
+      - 51413:51413
+      - 51413:51413/udp
+    restart: unless-stopped
