@@ -1,0 +1,139 @@
+---
+version: "2.1"
+services:
+  couchpotato:
+    image: lscr.io/linuxserver/couchpotato
+    container_name: couchpotato
+    environment:
+      - PUID=1000
+      - PGID=100
+      - TZ=Asia/Kolkata
+    volumes:
+      - /srv/dev-disk-by-uuid-174fa174-a675-40ef-af9d-28f1578a19bb/Containers/CouchPotato:/config
+      - /srv/dev-disk-by-uuid-174fa174-a675-40ef-af9d-28f1578a19bb/piShare/Downloads:/downloads
+      - /srv/dev-disk-by-uuid-174fa174-a675-40ef-af9d-28f1578a19bb/piShare/movies:/movies
+    ports:
+      - 5050:5050
+    restart: unless-stopped
+ 
+    docker run -d \
+  --name=couchpotato \
+  -e PUID=1000 \
+  -e PGID=100 \
+  -e TZ=Asia/Kolkata \
+  -p 5050:5050 \
+  -v /srv/dev-disk-by-uuid-174fa174-a675-40ef-af9d-28f1578a19bb/Containers/CouchPotato:/config \
+  -v /srv/dev-disk-by-uuid-174fa174-a675-40ef-af9d-28f1578a19bb/piShare/Downloads:/downloads \
+  -v /srv/dev-disk-by-uuid-174fa174-a675-40ef-af9d-28f1578a19bb/piShare/movies:/movies \
+  --restart unless-stopped \
+  lscr.io/linuxserver/couchpotato
+  
+
+---
+version: "2"
+services:
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - UMASK_SET=022 #optional
+    volumes:
+      - /path/to/data:/config
+      - /path/to/tvseries:/tv
+      - /path/to/downloadclient-downloads:/downloads
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+    
+    docker run -d \
+  --name=sonarr \
+  -e PUID=1000 \
+  -e PGID=100 \
+  -e TZ=Asia/Kolkata \
+  -p 8989:8989 \
+  -v /srv/dev-disk-by-uuid-174fa174-a675-40ef-af9d-28f1578a19bb/Containers/Sonarr:/config \
+  -v /srv/dev-disk-by-uuid-174fa174-a675-40ef-af9d-28f1578a19bb/piShare/Downloads:/downloads \
+  -v /srv/dev-disk-by-uuid-174fa174-a675-40ef-af9d-28f1578a19bb/piShare/movies:/movies \
+  -v /srv/dev-disk-by-uuid-174fa174-a675-40ef-af9d-28f1578a19bb/piShare/tvseries:/tv \
+  --restart unless-stopped \
+  lscr.io/linuxserver/sonarr
+  
+  
+  docker run -d \
+  --name=jackett \
+  -e PUID=1000 \
+  -e PGID=100 \
+  -e TZ=Asia/Kolkata \
+  -e AUTO_UPDATE=true \
+  -p 9117:9117 \
+  -v /srv/dev-disk-by-uuid-174fa174-a675-40ef-af9d-28f1578a19bb/Containers/Jackett:/config \
+  -v /srv/dev-disk-by-uuid-174fa174-a675-40ef-af9d-28f1578a19bb/piShare/Downloads/incomplete:/downloads \
+  --restart unless-stopped \
+  ghcr.io/linuxserver/jackett
+  
+  version: "2"
+services:
+  plex:
+    image: linuxserver/plex
+    container_name: plex
+    network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - VERSION=docker
+      - UMASK_SET=022 #optional
+      - PLEX_CLAIM= #optional
+    volumes:
+      - /path/to/library:/config
+      - path/to/tvseries:/tv
+      - /path/to/movies:/movies
+    restart: unless-stopped
+    
+    docker run -d \
+  --name=plex \
+  --net=host \
+  -e PUID=1000 \
+  -e PGID=100 \
+  -e TZ=Asia/Kolkata \
+  -e AUTO_UPDATE=true \
+  -p 9118:9118 \
+  -v /srv/dev-disk-by-uuid-174fa174-a675-40ef-af9d-28f1578a19bb/Containers/Plex:/config \
+  -v /srv/dev-disk-by-uuid-174fa174-a675-40ef-af9d-28f1578a19bb/piShare/movies:/movies \
+  -v /srv/dev-disk-by-uuid-174fa174-a675-40ef-af9d-28f1578a19bb/piShare/tvseries:/tv \
+  --restart unless-stopped \
+  ghcr.io/linuxserver/plex
+  
+  ---
+version: "2"
+services:
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - UMASK_SET=022 #optional
+    volumes:
+      - /path/to/data:/config
+      - /path/to/movies:/movies
+      - /path/to/downloadclient-downloads:/downloads
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+    
+    docker run -d \
+  --name=radarr \
+  -e PUID=1000 \
+  -e PGID=100 \
+  -e TZ=Asia/Kolkata \
+  -e AUTO_UPDATE=true \
+  -p 7878:7878 \
+  -v /srv/dev-disk-by-uuid-174fa174-a675-40ef-af9d-28f1578a19bb/Containers/Radarr:/config \
+  -v /srv/dev-disk-by-uuid-174fa174-a675-40ef-af9d-28f1578a19bb/piShare/movies:/movies \
+  -v /srv/dev-disk-by-uuid-174fa174-a675-40ef-af9d-28f1578a19bb/piShare/Downloads:/downloads \
+  --restart unless-stopped \
+  ghcr.io/linuxserver/radarr
